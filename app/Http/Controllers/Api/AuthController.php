@@ -15,27 +15,34 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
     public function register(Request $request)
     {
-        $validate = Validator::make($request->all(),[
-            "name" => "required|max:50",
-            "email"=>"required|email|unique:users,email",
-            "password"=>"required|min:8|max:16|confirmed",
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|confirmed |string|min:8',
         ]);
-        if ($validate->fails()){
-            return response()->json($validate->messages());
-        }
-        $user = new User();
-        $user->name =$request->name;
-        $user->username = Str::remove(" ",Str::lower($request->name)).rand(1,500000);
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = Auth::login($user);
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
+            'user' => $user,
+            'authorization' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
         ]);
     }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -52,6 +59,7 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
+
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
@@ -72,10 +80,12 @@ class AuthController extends Controller
         ]);
     }
 
-
     public function profile()
     {
-
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User detail!',
+            'user' => Auth::user()
+        ]);
     }
-
 }

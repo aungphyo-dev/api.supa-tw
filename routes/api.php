@@ -22,4 +22,5 @@ Route::prefix("auth")->controller(\App\Http\Controllers\Api\AuthController::clas
     Route::post("register","register");
     Route::post("login","login");
     Route::post("logout","logout");
+    Route::get("profile","profile");
 });
