@@ -11,7 +11,7 @@ class UpdateTweetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateTweetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "image" => "mimes:jpeg,jpg,png",
+            "context" => "required|max:300|string",
+            "user_id" => "required"
         ];
     }
 }

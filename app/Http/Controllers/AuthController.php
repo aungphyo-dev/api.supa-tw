@@ -5,8 +5,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -51,7 +49,8 @@ class AuthController extends Controller
             'status' => 'success',
             'user' => $user,
             'authorization' => [
-                'token' => $user->createToken('auth_token')->plainTextToken
+                "type" => "Bearer",
+                'token' => $user->createToken('auth_token')->plainTextToken,
             ]
         ]);
     }
