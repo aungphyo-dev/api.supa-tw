@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -66,10 +67,11 @@ class AuthController extends Controller
     }
     public function profile()
     {
+        $user = User::find(Auth::id());
         return response()->json([
             'status' => 'success',
             'message' => 'User detail!',
-            'user' => Auth::user()
+            'user' => new UserResource($user)
         ]);
     }
 }
