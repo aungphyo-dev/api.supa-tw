@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tweet>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comments>
  */
-class TweetFactory extends Factory
+class CommentsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class TweetFactory extends Factory
     public function definition(): array
     {
         return [
-            "context" => fake()->paragraph,
-            'user_id' => rand(1,20)
+            //
         ];
     }
 }

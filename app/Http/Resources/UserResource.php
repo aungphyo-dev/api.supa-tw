@@ -26,7 +26,9 @@ class UserResource extends JsonResource
             'cover_avatar' => $this->cover_avatar,
             'created_at' => $this->created_at->format('d F'),
             'updated_at' => $this->updated_at,
-            "tweets" => $this->tweets
+            "tweets" => $this->tweets,
+            "followers" => $this->followers,
+            "followings" => $this->followings,
         ];
     }
 }

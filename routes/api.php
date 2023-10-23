@@ -14,15 +14,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::controller(\App\Http\Controllers\AuthController::class)->prefix("auth")->group(function (){
-    Route::post("register","register");
-    Route::post("login","login");
-    Route::middleware(['auth:sanctum'])->group(function (){
-        Route::post("logout","logout");
-        Route::put("update","update");
-        Route::get('profile','profile');
+Route::controller(\App\Http\Controllers\AuthController::class)->prefix("auth")->group(function () {
+    Route::post("register", "register");
+    Route::post("login", "login");
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post("logout", "logout");
+        Route::put("update", "update");
+        Route::get('profile', 'profile');
     });
 });
-Route::middleware("auth:sanctum")->group(function (){
-   Route::apiResource("tweets",\App\Http\Controllers\TweetController::class);
+Route::middleware("auth:sanctum")->group(function () {
+    Route::apiResource("tweets", \App\Http\Controllers\TweetController::class);
+    Route::controller(\App\Http\Controllers\FollowingController::class)->group(function () {
+        Route::post("follow", "follow");
+        Route::post("unfollow","unfollow");
+    });
 });
+
