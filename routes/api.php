@@ -19,6 +19,7 @@ Route::controller(\App\Http\Controllers\AuthController::class)->prefix("auth")->
     Route::post("login","login");
     Route::middleware(['auth:sanctum'])->group(function (){
         Route::post("logout","logout");
+        Route::put("update","update");
         Route::get('profile','profile');
     });
 });

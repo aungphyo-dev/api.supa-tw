@@ -14,7 +14,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        $tweets = Tweet::all();
+        $tweets = Tweet::with("author")->latest("id")->get();
         return response()->json(compact("tweets"));
     }
     /**
@@ -35,7 +35,7 @@ class TweetController extends Controller
         $tweet->save();
         return response()->json([
             'status' => 'success',
-            'message' => 'employee is successfully created',
+            'message' => 'Tweet is successfully created',
             'data' => $tweet
         ], 201);
     }
@@ -54,7 +54,7 @@ class TweetController extends Controller
         }
         return response()->json([
             'status' => 'success',
-            'message' => 'employee is successfully retrieved',
+            'message' => 'Tweet is successfully retrieved',
             "data" => $tweet,
         ]);
     }
@@ -87,7 +87,7 @@ class TweetController extends Controller
         $tweet->update();
         return response()->json([
             'status' => 'success',
-            'message' => 'employee is successfully updated',
+            'message' => 'Tweet is successfully updated',
             'data' => $tweet
         ]);
     }
@@ -112,7 +112,7 @@ class TweetController extends Controller
         $tweet->delete();
         return response()->json([
             'status' => 'success',
-            'message' => 'employee is successfully deleted',
+            'message' => 'Tweet is successfully deleted',
         ], 204);
     }
 }
