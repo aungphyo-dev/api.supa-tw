@@ -14,7 +14,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        $tweets = Tweet::with("author")->latest("id")->get();
+        $tweets = Tweet::with("author")->latest("id")->paginate(20);
         return response()->json(compact("tweets"));
     }
     /**
