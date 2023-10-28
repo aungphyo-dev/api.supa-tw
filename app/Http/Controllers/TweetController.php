@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Following;
 use App\Models\Tweet;
 use App\Http\Requests\StoreTweetRequest;
 use App\Http\Requests\UpdateTweetRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class TweetController extends Controller
@@ -17,6 +19,13 @@ class TweetController extends Controller
         $tweets = Tweet::with("author")->latest("id")->paginate(20);
         return response()->json(compact("tweets"));
     }
+
+    public function TweetById(string $id)
+    {
+        $tweets = Tweet::with("author")->where("user_id",$id)->latest("id")->paginate(20);
+        return response()->json(compact("tweets"));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
