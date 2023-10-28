@@ -17,14 +17,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tweet::class,"user_id","id");
     }
-    public function followers() :BelongsToMany
+    public function followers() :HasMany
     {
-        return $this->belongsToMany(User::class, 'followings', 'following_id', 'follower_id');
+        return $this->hasMany(Following::class, 'following_id', 'id');
     }
 
-    public function followings() :BelongsToMany
+    public function followings() :HasMany
     {
-        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'following_id');
+        return $this->hasMany(Following::class, 'follower_id', 'id');
     }
 
     /**
