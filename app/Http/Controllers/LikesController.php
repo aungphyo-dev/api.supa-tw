@@ -5,62 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Likes;
 use App\Http\Requests\StoreLikesRequest;
 use App\Http\Requests\UpdateLikesRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LikesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function likeTweet(Request $request)
     {
-        //
+        $likes = Likes::where("tweet_id", $request->tweet_id)->where("like_user_id", Auth::id())->count();
+        if ($likes === 1) {
+            return response()->json(['error' => 'You are already like ' . $request->tweet_id]);
+        };
+        $like = new Likes();
+        $like->tweet_id = $request->tweet_id;
+        $like->like_user_id = Auth::id();
+        $like->save();
+        return response()->json(["message" => "You are now like"]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function unLikeTweet(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLikesRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Likes $likes)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Likes $likes)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLikesRequest $request, Likes $likes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Likes $likes)
-    {
-        //
+        $likes = Likes::where("tweet_id", $request->tweet_id)->where("like_user_id", Auth::id())->count();
+        if ($likes === 0) {
+            return response()->json(['error' => 'You are not like' . $request->tweet_id]);
+        };
+        $like =  Likes::where("tweet_id", $request->tweet_id)->where("like_user_id", Auth::id())->delete();
+        return response()->json(["message" => "You are now like"]);
     }
 }
