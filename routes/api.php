@@ -35,5 +35,9 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post("follow", "follow");
         Route::post("unfollow","unfollow");
     });
+    Route::controller(\App\Http\Controllers\LikesController::class)->group(function (){
+       Route::post("like","likeTweet");
+       Route::post("unlike","unLikeTweet");
+    });
 });
 
