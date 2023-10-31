@@ -127,7 +127,7 @@ class AuthController extends Controller
 
     public function index ()
     {
-        $users = User::with("followers")->latest("id")->get();
+        $users = User::with("followers")->whereNot("id",Auth::id())->latest("id")->get();
         return response()->json(compact("users"));
     }
 
